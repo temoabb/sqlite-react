@@ -1,5 +1,5 @@
 function App() {
-  return <>App</>;
+  return <h1 className="text-green-500">Todo App</h1>;
 }
 
 export default App;
