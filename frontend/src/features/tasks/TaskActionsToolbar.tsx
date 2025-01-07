@@ -23,23 +23,15 @@ const TaskActionsToolbar: React.FC<TaskActionsToolbarProps> = ({
 
   return (
     <div className="w-full flex items-center justify-between">
-      <div className="flex items-center gap-x-1">
+      <div className="flex items-center">
         {!isCompleted ? (
-          <Button className="px-1.5" size="sm" variant="ghost">
-            <PencilLine
-              className="cursor-pointer"
-              size={20}
-              onClick={handleEditTask}
-            />
+          <Button size="sm" variant="ghost" onClick={handleEditTask}>
+            <PencilLine className="cursor-pointer" size={20} />
           </Button>
         ) : null}
 
-        <Button className="px-1.5" size="sm" variant="ghost">
-          <Trash2
-            className="cursor-pointer text-red-500"
-            size={20}
-            onClick={handleDeleteTask}
-          />
+        <Button size="sm" variant="ghost" onClick={handleDeleteTask}>
+          <Trash2 className="cursor-pointer text-red-500" size={20} />
         </Button>
       </div>
 
@@ -47,7 +39,7 @@ const TaskActionsToolbar: React.FC<TaskActionsToolbarProps> = ({
         onClick={handleMarkAsChecked}
         size="sm"
         variant="ghost"
-        className="flex items-center gap-x-1"
+        className="flex items-center gap-x-1 px-2"
       >
         <span className="text-[#6C86A8]">
           {isCompleted ? "Completed" : "Mark completed"}

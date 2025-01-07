@@ -1,15 +1,16 @@
-import TasksList from "./features/tasks/TasksList";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import { TASKS } from "./features/tasks/Tasks.config";
+import TasksPage from "./pages/TasksPage";
 
 function App() {
   return (
-    <>
-      <h1 className="text-green-600 font-bold">Todo App</h1>
-      <div className="bg-[#E8F1FD] flex flex-col items-center py-2 gap-y-2.5 border max-w-[700px] mx-auto px-10">
-        <TasksList completed tasks={TASKS} />
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Navigate to="/tasks" />} />
+        <Route path="/tasks" element={<TasksPage />} />
+        <Route path="*" element={<div>Something went wrong</div>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

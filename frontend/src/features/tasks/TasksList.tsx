@@ -9,11 +9,11 @@ interface TasksListProps {
 
 const TasksList: React.FC<TasksListProps> = ({ tasks }) => {
   return (
-    <>
+    <div className="flex flex-col gap-2">
       {tasks.map((task) => (
         <TaskCard key={task.id} {...task} />
       ))}
-    </>
+    </div>
   );
 };
 
