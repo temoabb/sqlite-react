@@ -2,8 +2,10 @@ import { useSearchParams } from "react-router-dom";
 
 import { TaskStatus } from "@/features/Tasks/Tasks.config";
 
-const useTaskStatus = () => {
+const useTasksSearchParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const keyword = searchParams.get("keyword") || "";
 
   let status = searchParams.get("status") as TaskStatus;
 
@@ -12,10 +14,11 @@ const useTaskStatus = () => {
   }
 
   return {
+    status,
+    keyword,
     searchParams,
     setSearchParams,
-    status,
   };
 };
 
-export default useTaskStatus;
+export default useTasksSearchParams;

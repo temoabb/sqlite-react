@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-frontend": "cd frontend && npm run dev"
+    "install-all": "npm install && concurrently \"cd frontend && npm install\" \"cd backend && npm install\"",
+    "start": "concurrently \"cd backend && npx nodemon index.js\" \"cd frontend && npm run dev\""
   },
   "keywords": [],
   "author": "Temo Abesadze",

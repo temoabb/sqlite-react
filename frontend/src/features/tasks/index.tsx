@@ -2,13 +2,18 @@ import { useMemo } from "react";
 
 import TasksList from "./TasksList";
 
-import useTaskStatus from "@/hooks/useTaskStatus";
+import useTasksSearchParms from "@/hooks/useTasksSearchParams";
 
 import { TASKS } from "./Tasks.config";
 import TasksFiltersBar from "./TasksFiltersBar";
+import { useGetTasks } from "./useGetTasks";
 
 const Tasks = () => {
-  const { status } = useTaskStatus();
+  const { status, keyword } = useTasksSearchParms();
+
+  const { data, isPending } = useGetTasks({ status, keyword });
+
+  console.log("data", data);
 
   const renderedTasks = useMemo(() => {
     const requestCompletedTasks = status === "completed";

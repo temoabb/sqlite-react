@@ -1,9 +1,14 @@
 import { DB } from "./connect.js";
 
+import cors from "cors";
+
 import express from "express";
+
 import bodyParser from "body-parser";
 
 const app = express();
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
@@ -48,13 +53,13 @@ app.get("/api/tasks", (req, res) => {
         });
 
         let content = JSON.stringify(data);
-        res.send(content);
+        return res.send(content);
       }
     );
   } catch (error) {
     console.log(err.message);
     res.status(467);
-    res.send(`{ "code":467, "status":"${err.message}" }`);
+    return res.send(`{ "code":467, "status":"${err.message}" }`);
   }
 });
 
@@ -79,12 +84,12 @@ app.post("/api/tasks", (req, res) => {
       };
 
       let content = JSON.stringify(data);
-      res.send(content);
+      return res.send(content);
     });
   } catch (error) {
     console.log(err.message);
     res.status(468);
-    res.send(`{ "code":468, "status":"${err.message}" }`);
+    return res.send(`{ "code":468, "status":"${err.message}" }`);
   }
 });
 
@@ -107,14 +112,14 @@ app.put("/api/tasks/:id", (req, res) => {
       if (err) {
         console.err("Error updating task:", err.message);
         res.status(468);
-        res.send(`{ "code":468, "status":"${err.message}" }`);
+        return res.send(`{ "code":468, "status":"${err.message}" }`);
       }
 
       if (this.changes === 0) {
         res.status(404);
         const data = { status: 404, status: "Task not found" };
         const content = JSON.stringify(data);
-        res.send(content);
+        return res.send(content);
       }
 
       res.status(200);
@@ -125,13 +130,13 @@ app.put("/api/tasks/:id", (req, res) => {
       };
 
       let content = JSON.stringify(data);
-      res.send(content);
+      return res.send(content);
     });
   } catch (error) {
     console.error(error.message);
 
     res.status(467);
-    res.send(`{ "code":467, "status":"${error.message}" }`);
+    return res.send(`{ "code":467, "status":"${error.message}" }`);
   }
 });
 
@@ -151,7 +156,7 @@ app.delete("/api/tasks", (req, res) => {
     params.push(Boolean(parseInt(status)));
   } else {
     res.status(400);
-    res.send("Please provide either an id or a status");
+    return res.send("Please provide either an id or a status");
   }
 
   try {
@@ -159,14 +164,14 @@ app.delete("/api/tasks", (req, res) => {
       if (err) {
         console.error("error deleting task(s):", err.message);
         res.status(468);
-        res.send(`{ "code":468, "status":"${err.message}" }`);
+        return res.send(`{ "code":468, "status":"${err.message}" }`);
       }
 
       const deletedCount = this.changes;
 
       if (deletedCount === 0) {
         res.status(404);
-        res.send(`{ "code":404, "status":"No tasks found to delete" }`);
+        return res.send(`{ "code":404, "status":"No tasks found to delete" }`);
       }
 
       res.status(200);
@@ -176,12 +181,12 @@ app.delete("/api/tasks", (req, res) => {
       };
 
       const content = JSON.stringify(data);
-      res.send(content);
+      return res.send(content);
     });
   } catch (error) {
     console.error(error.message);
     res.status(467);
-    res.send(`{ "code":467, "status":"${error.message}" }`);
+    return res.send(`{ "code":467, "status":"${error.message}" }`);
   }
 });
 

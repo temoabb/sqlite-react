@@ -1,6 +1,6 @@
 import { History, Calendar } from "lucide-react";
 
-import useTaskStatus from "@/hooks/useTaskStatus";
+import useTaskStatus from "@/hooks/useTasksSearchParams";
 
 import { TaskStatus } from "./Tasks.config";
 
