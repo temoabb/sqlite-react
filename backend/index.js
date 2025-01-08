@@ -135,6 +135,56 @@ app.put("/api/tasks/:id", (req, res) => {
   }
 });
 
+app.delete("/api/tasks", (req, res) => {
+  res.set("content-type", "application/json");
+
+  const { id, status } = req.query;
+
+  let sql = ``;
+  let params = [];
+
+  if (id) {
+    sql = `DELETE FROM tasks WHERE task_id=?`;
+    params.push(id);
+  } else if (status === "0" || status === "1") {
+    sql = `DELETE FROM tasks WHERE task_is_completed = ?`;
+    params.push(Boolean(parseInt(status)));
+  } else {
+    res.status(400);
+    res.send("Please provide either an id or a status");
+  }
+
+  try {
+    DB.run(sql, params, function (err) {
+      if (err) {
+        console.error("error deleting task(s):", err.message);
+        res.status(468);
+        res.send(`{ "code":468, "status":"${err.message}" }`);
+      }
+
+      const deletedCount = this.changes;
+
+      if (deletedCount === 0) {
+        res.status(404);
+        res.send(`{ "code":404, "status":"No tasks found to delete" }`);
+      }
+
+      res.status(200);
+      const data = {
+        status: 200,
+        message: `${deletedCount} task(s) deleted successfully`,
+      };
+
+      const content = JSON.stringify(data);
+      res.send(content);
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.status(467);
+    res.send(`{ "code":467, "status":"${error.message}" }`);
+  }
+});
+
 app.listen(3000, (err) => {
   if (err) {
     console.log("Error", err.message);
