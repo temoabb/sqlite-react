@@ -1,50 +1,53 @@
-import { Button } from "@/components/ui/button";
-import { useConfirm } from "@/hooks/useConfirm";
+import { useState } from "react";
 import { CircleCheck, PencilLine, Trash2 } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+import { useConfirm } from "@/hooks/useConfirm";
+
+import TaskFormDialog from "./TaskFormDialog";
+
 import { TaskEntity } from "./Tasks.config";
 
-const TaskActionsToolbar: React.FC<TaskEntity> = ({
-  id,
-  // description,
-  title,
-  isCompleted,
-}) => {
+const TaskActionsToolbar: React.FC<TaskEntity> = (task) => {
+  const [openEdit, setOpenEdit] = useState(false);
+
   const [ConfirmDeleteDialog, confirmDelete] = useConfirm(
-    `Are you sure you want to delete task - ${title}?`,
+    `Are you sure you want to delete task - ${task.title}?`,
     "This action is irreversible"
   );
 
   const [ConfirmMarkAsDoneDialog, confirmMarkAsDone] = useConfirm(
-    `Are you sure you want to mark task: "${title}" as done?`,
+    `Are you sure you want to mark task: "${task.title}" as done?`,
     ""
   );
 
   const handleEditTask = () => {
-    if (isCompleted) return;
-    // console.log(id);
+    if (task.isCompleted) return;
+    setOpenEdit(true);
   };
 
   const handleDeleteTask = async () => {
     const ok = await confirmDelete();
-
     if (!ok) return;
 
-    console.log(id);
+    // console.log(task.id);
   };
 
   const handleMarkAsChecked = async () => {
     const ok = await confirmMarkAsDone();
-
     if (!ok) return;
   };
 
   return (
     <>
+      <TaskFormDialog prefill={task} open={openEdit} setOpen={setOpenEdit} />
       <ConfirmDeleteDialog />
       <ConfirmMarkAsDoneDialog />
+
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center">
-          {!isCompleted ? (
+          {!task.isCompleted ? (
             <Button size="sm" variant="ghost" onClick={handleEditTask}>
               <PencilLine className="cursor-pointer" size={20} />
             </Button>
@@ -62,7 +65,7 @@ const TaskActionsToolbar: React.FC<TaskEntity> = ({
           className="flex items-center gap-x-1 px-2"
         >
           <span className="text-[#6C86A8]">
-            {isCompleted ? "Completed" : "Mark completed"}
+            {task.isCompleted ? "Completed" : "Mark completed"}
           </span>
           <span className="text-green-400">
             <CircleCheck size={20} />
