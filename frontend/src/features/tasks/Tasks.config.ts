@@ -2,28 +2,130 @@ export interface TaskEntity {
   id: number;
   title: string;
   description: string;
-  isCompleted?: boolean;
+  isCompleted: boolean;
 }
 
+export type TaskStatus = "completed" | "incomplete";
+
 export const TASKS: TaskEntity[] = [
-  { id: 1, title: "Title 1", description: "Description of Title 1" },
-  { id: 2, title: "Title 2", description: "Description of Title 2" },
-  { id: 3, title: "Title 3", description: "Description of Title 3" },
-  { id: 4, title: "Title 4", description: "Description of Title 4" },
-  { id: 5, title: "Title 5", description: "Description of Title 5" },
-  { id: 6, title: "Title 6", description: "Description of Title 6" },
-  { id: 7, title: "Title 7", description: "Description of Title 7" },
-  { id: 8, title: "Title 8", description: "Description of Title 8" },
-  { id: 9, title: "Title 9", description: "Description of Title 9" },
-  { id: 10, title: "Title 10", description: "Description of Title 10" },
-  { id: 11, title: "Title 11", description: "Description of Title 11" },
-  { id: 12, title: "Title 12", description: "Description of Title 12" },
-  { id: 13, title: "Title 13", description: "Description of Title 13" },
-  { id: 14, title: "Title 14", description: "Description of Title 14" },
-  { id: 15, title: "Title 15", description: "Description of Title 15" },
-  { id: 16, title: "Title 16", description: "Description of Title 16" },
-  { id: 17, title: "Title 17", description: "Description of Title 17" },
-  { id: 18, title: "Title 18", description: "Description of Title 18" },
-  { id: 19, title: "Title 19", description: "Description of Title 19" },
-  { id: 20, title: "Title 20", description: "Description of Title 20" },
+  {
+    id: 1,
+    title: "Project Alpha",
+    description: "Initial phase of the Alpha project.",
+    isCompleted: true,
+  },
+  {
+    id: 2,
+    title: "Market Research",
+    description: "Conduct a thorough analysis of market trends.",
+    isCompleted: false,
+  },
+  {
+    id: 3,
+    title: "Prototype Design",
+    description: "Create an interactive prototype for testing.",
+    isCompleted: true,
+  },
+  {
+    id: 4,
+    title: "Budget Planning",
+    description: "Prepare the financial plan for the upcoming quarter.",
+    isCompleted: false,
+  },
+  {
+    id: 5,
+    title: "Team Onboarding",
+    description: "Introduce new members to the project framework.",
+    isCompleted: true,
+  },
+  {
+    id: 6,
+    title: "Risk Assessment",
+    description: "Evaluate potential risks and mitigation strategies.",
+    isCompleted: false,
+  },
+  {
+    id: 7,
+    title: "Client Feedback",
+    description: "Incorporate client feedback into project deliverables.",
+    isCompleted: true,
+  },
+  {
+    id: 8,
+    title: "UI Enhancements",
+    description: "Improve the user interface for better accessibility.",
+    isCompleted: false,
+  },
+  {
+    id: 9,
+    title: "Code Review",
+    description: "Perform a detailed review of the application code.",
+    isCompleted: true,
+  },
+  {
+    id: 10,
+    title: "System Testing",
+    description: "Conduct end-to-end testing for system stability.",
+    isCompleted: false,
+  },
+  {
+    id: 11,
+    title: "Launch Prep",
+    description: "Finalize all tasks in preparation for the launch.",
+    isCompleted: true,
+  },
+  {
+    id: 12,
+    title: "Documentation",
+    description: "Compile detailed project documentation.",
+    isCompleted: false,
+  },
+  {
+    id: 13,
+    title: "Marketing Campaign",
+    description: "Develop a strategic plan for the marketing campaign.",
+    isCompleted: true,
+  },
+  {
+    id: 14,
+    title: "Performance Review",
+    description: "Assess the performance of the deployed features.",
+    isCompleted: false,
+  },
+  {
+    id: 15,
+    title: "Customer Support",
+    description: "Set up support channels for customer queries.",
+    isCompleted: true,
+  },
+  {
+    id: 16,
+    title: "Backend Optimization",
+    description: "Enhance the backend for faster response times.",
+    isCompleted: false,
+  },
+  {
+    id: 17,
+    title: "Security Audit",
+    description: "Conduct a thorough audit of application security.",
+    isCompleted: true,
+  },
+  {
+    id: 18,
+    title: "Data Migration",
+    description: "Transfer legacy data to the new system.",
+    isCompleted: false,
+  },
+  {
+    id: 19,
+    title: "Training Sessions",
+    description: "Organize training for team members on new tools.",
+    isCompleted: true,
+  },
+  {
+    id: 20,
+    title: "Post-Launch Review",
+    description: "Analyze project outcomes after the official launch.",
+    isCompleted: false,
+  },
 ];

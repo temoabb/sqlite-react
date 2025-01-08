@@ -30,7 +30,7 @@ const TaskCard: React.FC<TaskEntity> = ({
       onValueChange={handleToggleValue}
       collapsible
       type="single"
-      className="border shadow-cardShadow px-2.5 rounded-lg w-[335px] bg-white"
+      className="border shadow-cardShadow px-2.5 rounded-lg overflow-hidden w-full bg-white"
     >
       <AccordionItem className="border-none" value={`item-${id}`}>
         <AccordionTrigger className="border-none hover:no-underline">
