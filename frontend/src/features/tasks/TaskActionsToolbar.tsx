@@ -1,54 +1,75 @@
 import { Button } from "@/components/ui/button";
+import { useConfirm } from "@/hooks/useConfirm";
 import { CircleCheck, PencilLine, Trash2 } from "lucide-react";
+import { TaskEntity } from "./Tasks.config";
 
-interface TaskActionsToolbarProps {
-  isCompleted: boolean;
-  taskId: number;
-}
-
-const TaskActionsToolbar: React.FC<TaskActionsToolbarProps> = ({
+const TaskActionsToolbar: React.FC<TaskEntity> = ({
+  id,
+  // description,
+  title,
   isCompleted,
-  taskId,
 }) => {
+  const [ConfirmDeleteDialog, confirmDelete] = useConfirm(
+    `Are you sure you want to delete task - ${title}?`,
+    "This action is irreversible"
+  );
+
+  const [ConfirmMarkAsDoneDialog, confirmMarkAsDone] = useConfirm(
+    `Are you sure you want to mark task: "${title}" as done?`,
+    ""
+  );
+
   const handleEditTask = () => {
     if (isCompleted) return;
-    console.log(taskId);
+    // console.log(id);
   };
 
-  const handleDeleteTask = () => {
-    console.log(taskId);
+  const handleDeleteTask = async () => {
+    const ok = await confirmDelete();
+
+    if (!ok) return;
+
+    console.log(id);
   };
 
-  const handleMarkAsChecked = () => {};
+  const handleMarkAsChecked = async () => {
+    const ok = await confirmMarkAsDone();
+
+    if (!ok) return;
+  };
 
   return (
-    <div className="w-full flex items-center justify-between">
-      <div className="flex items-center">
-        {!isCompleted ? (
-          <Button size="sm" variant="ghost" onClick={handleEditTask}>
-            <PencilLine className="cursor-pointer" size={20} />
-          </Button>
-        ) : null}
+    <>
+      <ConfirmDeleteDialog />
+      <ConfirmMarkAsDoneDialog />
+      <div className="w-full flex items-center justify-between">
+        <div className="flex items-center">
+          {!isCompleted ? (
+            <Button size="sm" variant="ghost" onClick={handleEditTask}>
+              <PencilLine className="cursor-pointer" size={20} />
+            </Button>
+          ) : null}
 
-        <Button size="sm" variant="ghost" onClick={handleDeleteTask}>
-          <Trash2 className="cursor-pointer text-red-500" size={20} />
+          <Button size="sm" variant="ghost" onClick={handleDeleteTask}>
+            <Trash2 className="cursor-pointer text-red-500" size={20} />
+          </Button>
+        </div>
+
+        <Button
+          onClick={handleMarkAsChecked}
+          size="sm"
+          variant="ghost"
+          className="flex items-center gap-x-1 px-2"
+        >
+          <span className="text-[#6C86A8]">
+            {isCompleted ? "Completed" : "Mark completed"}
+          </span>
+          <span className="text-green-400">
+            <CircleCheck size={20} />
+          </span>
         </Button>
       </div>
-
-      <Button
-        onClick={handleMarkAsChecked}
-        size="sm"
-        variant="ghost"
-        className="flex items-center gap-x-1 px-2"
-      >
-        <span className="text-[#6C86A8]">
-          {isCompleted ? "Completed" : "Mark completed"}
-        </span>
-        <span className="text-green-400">
-          <CircleCheck size={20} />
-        </span>
-      </Button>
-    </div>
+    </>
   );
 };
 

@@ -13,12 +13,7 @@ import TaskActionsToolbar from "./TaskActionsToolbar";
 
 import { TaskEntity } from "./Tasks.config";
 
-const TaskCard: React.FC<TaskEntity> = ({
-  id,
-  title,
-  description,
-  isCompleted,
-}) => {
+const TaskCard: React.FC<TaskEntity> = (task) => {
   const [_, setIsCollapsed] = useState(false);
 
   const handleToggleValue = () => {
@@ -32,14 +27,14 @@ const TaskCard: React.FC<TaskEntity> = ({
       type="single"
       className="border shadow-cardShadow px-2.5 rounded-lg overflow-hidden w-full bg-white"
     >
-      <AccordionItem className="border-none" value={`item-${id}`}>
+      <AccordionItem className="border-none" value={`item-${task.id}`}>
         <AccordionTrigger className="border-none hover:no-underline">
           <div className="flex items-center gap-x-1">
             <span className="text-muted-foreground font-[500] text-sm text-[#30507D]">
-              {title}
+              {task.title}
             </span>
 
-            {!isCompleted ? (
+            {task.isCompleted ? (
               <span className="text-green-400">
                 <CircleCheck size={20} />
               </span>
@@ -64,14 +59,11 @@ const TaskCard: React.FC<TaskEntity> = ({
             disabled
             readOnly
             className="w-full p-3 rounded-none shadow-insetInputShadow font-[600] bg-[#E8F1FD] text-[#6C86A8] text-[10px] leading-[15px]"
-            value={description}
+            value={task.description}
           />
 
           <div className="mt-2">
-            <TaskActionsToolbar
-              isCompleted={Boolean(isCompleted)}
-              taskId={id}
-            />
+            <TaskActionsToolbar {...task} />
           </div>
         </AccordionContent>
       </AccordionItem>
