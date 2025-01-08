@@ -88,6 +88,53 @@ app.post("/api/tasks", (req, res) => {
   }
 });
 
+app.put("/api/tasks/:id", (req, res) => {
+  res.set("content-type", "application/json");
+
+  const { title, description, isCompleted } = req.body;
+  const taskId = req.params.id;
+
+  const sql = `
+    UPDATE tasks
+    SET task_title = ?, task_description = ?, task_is_completed = ?
+    WHERE task_id = ?
+  `;
+
+  const params = [title, description, isCompleted, taskId];
+
+  try {
+    DB.run(sql, params, function (err) {
+      if (err) {
+        console.err("Error updating task:", err.message);
+        res.status(468);
+        res.send(`{ "code":468, "status":"${err.message}" }`);
+      }
+
+      if (this.changes === 0) {
+        res.status(404);
+        const data = { status: 404, status: "Task not found" };
+        const content = JSON.stringify(data);
+        res.send(content);
+      }
+
+      res.status(200);
+
+      const data = {
+        status: 200,
+        message: `Task ${taskId} updated successfully`,
+      };
+
+      let content = JSON.stringify(data);
+      res.send(content);
+    });
+  } catch (error) {
+    console.error(error.message);
+
+    res.status(467);
+    res.send(`{ "code":467, "status":"${error.message}" }`);
+  }
+});
+
 app.listen(3000, (err) => {
   if (err) {
     console.log("Error", err.message);
