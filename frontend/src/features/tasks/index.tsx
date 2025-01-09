@@ -1,6 +1,7 @@
 import { CircleX, Loader, Search } from "lucide-react";
 
 import TasksList from "./TasksList";
+import ProfileBar from "./ProfileBar";
 import TasksFiltersBar from "./TasksFiltersBar";
 import CreateNewTaskButton from "./CreateNewTaskButton";
 import NoActiveTasksMessage from "./NoActiveTasksMessage";
@@ -39,8 +40,9 @@ const Tasks = () => {
   const noActiveTasks = data?.tasks?.length === 0;
 
   return (
-    <div className="min-h-screen my-10 px-2 sm:px-0">
+    <div className="min-h-screen mt-20 mb-10 px-2 sm:px-0">
       <div className="flex flex-col items-center justify-center gap-y-5 mx-auto transition-all max-w-[600px] sm:w-[500px] relative bg-[#E8F1FD] rounded-[12px] p-5 pb-10">
+        <ProfileBar />
         <div className="w-full relative">
           <input
             value={searchTerm}
@@ -55,7 +57,7 @@ const Tasks = () => {
               className="absolute top-[5px] right-[5px] size-6 text-white p-1 cursor-pointer rounded-[6px] bg-[#6A6CE0]"
             />
           ) : (
-            <Search className="absolute top-[5px] right-[5px] size-6 text-white p-1 cursor-pointer rounded-[6px] bg-[#6A6CE0]" />
+            <Search className="absolute top-[5px] right-[5px] size-6 text-white p-1 rounded-[6px] bg-[#6A6CE0]" />
           )}
         </div>
 

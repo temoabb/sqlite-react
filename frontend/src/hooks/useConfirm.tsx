@@ -40,14 +40,14 @@ export const useConfirm = (
 
   const ConfirmDialog = () => (
     <Dialog open={promise !== null} onOpenChange={handleCancel}>
-      <DialogContent>
+      <DialogContent className="px-3 sm:px-5">
         <DialogHeader>
           <DialogTitle className="font-[400] text-[16px] mb-2">
             {title}
           </DialogTitle>
           <DialogDescription>{message}</DialogDescription>
         </DialogHeader>
-        <DialogFooter className="pt-2">
+        <DialogFooter className="pt-2 flex flex-col sm:flex-row gap-y-2">
           <Button onClick={handleCancel} variant="outline">
             Cancel
           </Button>

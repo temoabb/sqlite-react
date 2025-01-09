@@ -106,7 +106,7 @@ const TaskFormDialog: React.FC<TaskFormModalProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent>
+      <DialogContent className="px-3 sm:p-x-0">
         <DialogHeader>
           <DialogTitle className="text-center font-semibold text-[12px]">
             {prefill ? "Edit task name" : "Create task"}
