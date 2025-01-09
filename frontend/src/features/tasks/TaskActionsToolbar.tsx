@@ -17,11 +17,10 @@ const TaskActionsToolbar: React.FC<TaskEntity> = (task) => {
 
   const { status, keyword } = useTasksSearchParams();
 
-  const {
-    mutate: updateTask,
-    isPending,
-    error,
-  } = useUpdateTask({ status, keyword });
+  const { mutate: updateTask } = useUpdateTask({
+    status,
+    keyword,
+  });
 
   const [ConfirmDeleteDialog, confirmDelete] = useConfirm(
     `Are you sure you want to delete task - ${task.title}?`,
@@ -43,8 +42,6 @@ const TaskActionsToolbar: React.FC<TaskEntity> = (task) => {
   const handleDeleteTask = async () => {
     const ok = await confirmDelete();
     if (!ok) return;
-
-    // console.log(task.id);
   };
 
   const handleMarkAsChecked = async () => {
@@ -68,9 +65,7 @@ const TaskActionsToolbar: React.FC<TaskEntity> = (task) => {
   return (
     <>
       <TaskFormDialog prefill={task} open={openEdit} setOpen={setOpenEdit} />
-
       <ConfirmDeleteDialog />
-
       <ConfirmMarkAsDoneDialog />
 
       <div className="w-full flex items-center justify-between">

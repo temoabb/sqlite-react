@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { toast } from "sonner";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -11,7 +13,11 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
+import useTasksSearchParams from "@/hooks/useTasksSearchParams";
+import useUpdateTask from "./useUpdateTask";
+
 import { TaskEntity } from "./Tasks.config";
+import useCreateTask from "./useCreateTask";
 
 interface TaskFormModalProps {
   open: boolean;
@@ -30,27 +36,69 @@ const TaskFormDialog: React.FC<TaskFormModalProps> = ({
     prefill?.description || ""
   );
 
+  const { status, keyword } = useTasksSearchParams();
+
+  const { mutate: create, isPending: isCreating } = useCreateTask({
+    status,
+    keyword,
+  });
+
+  const { mutate: update, isPending: isUpdating } = useUpdateTask({
+    status,
+    keyword,
+  });
+
+  const isLoading = isCreating || isUpdating;
+
   const handleClose = () => {
     setOpen(false);
-    // setWorkspaceName("");
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // mutate(
-    //   {
-    //     name: workspaceName,
-    //   },
-    //   {
-    //     onSuccess: (workspaceId) => {
-    //       toast.success("Workspace created");
-    //       navigate("/")
-    //       router.push(`/workspace/${workspaceId}`);
-    //       handleClose();
-    //     },
-    //   }
-    // );
+    if (!taskTitle.trim() || !taskDescription.trim()) {
+      toast.error("Task title and description should not be an empty string");
+      return;
+    }
+
+    if (prefill) {
+      const { id, isCompleted } = prefill;
+
+      const updatedTask: TaskEntity = {
+        id,
+        isCompleted,
+        title: taskTitle,
+        description: taskDescription,
+      };
+
+      update(updatedTask, {
+        onSuccess: () => {
+          toast.success("Task updated successfully");
+          setOpen(false);
+        },
+        onError: (error) => {
+          toast.error("Error updating a task: " + error.message);
+        },
+      });
+    } else {
+      create(
+        {
+          title: taskTitle,
+          description: taskDescription,
+          isCompleted: false,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Task created successfully");
+            setOpen(false);
+          },
+          onError: (error) => {
+            toast.error("Error creating a task: " + error.message);
+          },
+        }
+      );
+    }
   };
 
   return (
@@ -64,7 +112,7 @@ const TaskFormDialog: React.FC<TaskFormModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             value={taskTitle}
-            // disabled={isPending}
+            disabled={isLoading}
             autoFocus
             required
             minLength={3}
@@ -74,15 +122,19 @@ const TaskFormDialog: React.FC<TaskFormModalProps> = ({
 
           <Input
             value={taskDescription}
-            // disabled={isPending}
+            disabled={isLoading}
             autoFocus
             required
             minLength={3}
             onChange={(e) => setTaskDescription(e.target.value)}
             placeholder="Type task details here"
           />
+
           <div className="flex justify-end">
-            <Button className="w-full bg-[#6A6CE0] hover:bg-[#7677d8]">
+            <Button
+              disabled={isLoading}
+              className="w-full bg-[#6A6CE0] hover:bg-[#7677d8]"
+            >
               Save
             </Button>
           </div>
