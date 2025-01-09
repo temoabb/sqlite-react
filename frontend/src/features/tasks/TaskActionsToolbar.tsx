@@ -3,21 +3,27 @@ import { CircleCheck, PencilLine, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import TaskFormDialog from "./TaskFormDialog";
 
 import { useConfirm } from "@/hooks/useConfirm";
 import useTasksSearchParams from "@/hooks/useTasksSearchParams";
-import useUpdateTask from "./useUpdateTask";
 
-import TaskFormDialog from "./TaskFormDialog";
+import useUpdateTask from "./useUpdateTask";
+import useDeleteTasks from "./useDeleteTasks";
 
 import { TaskEntity } from "./Tasks.config";
 
 const TaskActionsToolbar: React.FC<TaskEntity> = (task) => {
-  const [openEdit, setOpenEdit] = useState(false);
-
   const { status, keyword } = useTasksSearchParams();
 
+  const [openEdit, setOpenEdit] = useState(false);
+
   const { mutate: updateTask } = useUpdateTask({
+    status,
+    keyword,
+  });
+
+  const { mutate: deleteTask } = useDeleteTasks({
     status,
     keyword,
   });
@@ -41,11 +47,25 @@ const TaskActionsToolbar: React.FC<TaskEntity> = (task) => {
 
   const handleDeleteTask = async () => {
     const ok = await confirmDelete();
+
     if (!ok) return;
+
+    deleteTask(
+      { id: task.id },
+      {
+        onSuccess: () => {
+          toast.success("Task deleted successfully");
+        },
+        onError: (error) => {
+          toast.error("Error deleting task: " + error.message);
+        },
+      }
+    );
   };
 
   const handleMarkAsChecked = async () => {
     const ok = await confirmMarkAsDone();
+
     if (!ok) return;
 
     const { isCompleted, ...rest } = task;
@@ -65,7 +85,9 @@ const TaskActionsToolbar: React.FC<TaskEntity> = (task) => {
   return (
     <>
       <TaskFormDialog prefill={task} open={openEdit} setOpen={setOpenEdit} />
+
       <ConfirmDeleteDialog />
+
       <ConfirmMarkAsDoneDialog />
 
       <div className="w-full flex items-center justify-between">
@@ -90,6 +112,7 @@ const TaskActionsToolbar: React.FC<TaskEntity> = (task) => {
           <span className="text-[#6C86A8]">
             {task.isCompleted ? "Completed" : "Mark completed"}
           </span>
+
           <span className="text-green-400">
             <CircleCheck size={20} />
           </span>
