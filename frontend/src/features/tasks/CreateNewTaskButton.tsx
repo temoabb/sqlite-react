@@ -14,6 +14,7 @@ const CreateNewTaskButton = () => {
         setOpen={setOpenFormModal}
         prefill={null}
       />
+
       <Button
         onClick={() => setOpenFormModal(true)}
         className="absolute rounded-[50%] w-[52px] h-[52px] bg-[#6A6CE0] hover:bg-[#6162b8] bottom-2 flex items-center justify-center"

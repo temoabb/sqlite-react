@@ -3,7 +3,7 @@ import debounce from "lodash.debounce";
 import useTasksSearchParams from "@/hooks/useTasksSearchParams";
 import { useCallback, useState } from "react";
 
-const useDebounce = () => {
+const useTasksSearch = () => {
   const { searchParams, setSearchParams } = useTasksSearchParams();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,7 +26,8 @@ const useDebounce = () => {
   return {
     searchTerm,
     onChange,
+    setSearchTerm,
   };
 };
 
-export default useDebounce;
+export default useTasksSearch;

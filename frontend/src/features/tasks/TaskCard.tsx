@@ -14,7 +14,7 @@ import TaskActionsToolbar from "./TaskActionsToolbar";
 import { TaskEntity } from "./Tasks.config";
 
 const TaskCard: React.FC<TaskEntity> = (task) => {
-  const [_, setIsCollapsed] = useState(false);
+  const [, setIsCollapsed] = useState(false);
 
   const handleToggleValue = () => {
     setIsCollapsed((value) => !value);
@@ -41,18 +41,6 @@ const TaskCard: React.FC<TaskEntity> = (task) => {
             ) : null}
           </div>
         </AccordionTrigger>
-
-        {/* <div
-          className="mb-2"
-          style={{
-            // transition: "opacity 0.2s ease-out",
-            opacity: isCollapsed ? 0 : 1,
-            height: isCollapsed ? 0 : "auto",
-            overflow: "hidden",
-          }}
-        >
-          <TaskActionsToolbar isCompleted={Boolean(isCompleted)} taskId={id} />
-        </div> */}
 
         <AccordionContent className="border-none pb-2">
           <input

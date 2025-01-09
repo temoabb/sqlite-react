@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 import {
   Dialog,
@@ -91,6 +92,8 @@ const TaskFormDialog: React.FC<TaskFormModalProps> = ({
         {
           onSuccess: () => {
             toast.success("Task created successfully");
+            setTaskTitle("");
+            setTaskDescription("");
             setOpen(false);
           },
           onError: (error) => {
@@ -105,7 +108,9 @@ const TaskFormDialog: React.FC<TaskFormModalProps> = ({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add a workspace</DialogTitle>
+          <DialogTitle className="text-center font-semibold text-[12px]">
+            {prefill ? "Edit task name" : "Create task"}
+          </DialogTitle>
         </DialogHeader>
         <DialogDescription>{}</DialogDescription>
 
@@ -118,19 +123,19 @@ const TaskFormDialog: React.FC<TaskFormModalProps> = ({
             minLength={3}
             onChange={(e) => setTaskTitle(e.target.value)}
             placeholder="Task Name"
+            className="placeholder:text-[#B0B0B0] text-[10px] w-full h-[40px] pl-2 text-10px border-[rgb(228, 228, 231)]"
           />
 
-          <Input
-            value={taskDescription}
-            disabled={isLoading}
-            autoFocus
-            required
-            minLength={3}
-            onChange={(e) => setTaskDescription(e.target.value)}
-            placeholder="Type task details here"
-          />
+          <div className="grid w-full gap-2">
+            <Textarea
+              value={taskDescription}
+              onChange={(e) => setTaskDescription(e.target.value)}
+              disabled={isLoading}
+              placeholder="Type task details here"
+              className="bg-[#E8F1FD] min-h-[150px] placeholder:text-[#6C86A8] text-[10px]"
+              required
+            />
 
-          <div className="flex justify-end">
             <Button
               disabled={isLoading}
               className="w-full bg-[#6A6CE0] hover:bg-[#7677d8]"
