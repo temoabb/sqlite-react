@@ -1,21 +1,26 @@
+import { useCallback, useState } from "react";
+
 import debounce from "lodash.debounce";
 
 import useTasksSearchParams from "@/hooks/useTasksSearchParams";
-import { useCallback, useState } from "react";
 
 const useTasksSearch = () => {
-  const { searchParams, setSearchParams } = useTasksSearchParams();
+  const { status, searchParams, setSearchParams } = useTasksSearchParams();
 
   const [searchTerm, setSearchTerm] = useState("");
 
   const request = debounce((searchKeyword: string) => {
-    searchParams.set("keyword", searchKeyword);
-    setSearchParams(searchParams);
+    const newSearchParams = new URLSearchParams(searchParams);
+
+    newSearchParams.set("keyword", searchKeyword);
+    newSearchParams.set("status", status);
+
+    setSearchParams(newSearchParams);
   }, 500);
 
   const debounceRequest = useCallback(
     (searchTerm: string) => request(searchTerm),
-    []
+    [searchParams]
   );
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

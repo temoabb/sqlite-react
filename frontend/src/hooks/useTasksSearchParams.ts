@@ -10,7 +10,7 @@ const useTasksSearchParams = () => {
   let status = searchParams.get("status") as TaskStatus;
 
   if (!(status === "completed" || status === "incomplete")) {
-    status = "completed";
+    status = "incomplete";
   }
 
   return {

@@ -40,9 +40,10 @@ const Tasks = () => {
   const noActiveTasks = data?.tasks?.length === 0;
 
   return (
-    <div className="min-h-screen mt-20 mb-10 px-2 sm:px-0">
-      <div className="flex flex-col items-center justify-center gap-y-5 mx-auto transition-all max-w-[600px] sm:w-[500px] relative bg-[#E8F1FD] rounded-[12px] p-5 pb-10">
+    <div className="min-h-screen mt-10 sm:mt-20 mb-10 px-2 sm:px-0">
+      <div className="flex flex-col items-center justify-center gap-y-5 mx-auto transition-all max-w-[600px] sm:w-[500px] relative bg-[#E8F1FD] rounded-[12px] p-5 pb-8">
         <ProfileBar />
+
         <div className="w-full relative">
           <input
             value={searchTerm}
