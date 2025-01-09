@@ -1,3 +1,5 @@
+import React from "react";
+
 import TaskCard from "./TaskCard";
 
 import { TaskEntity } from "./Tasks.config";
@@ -16,4 +18,4 @@ const TasksList: React.FC<TasksListProps> = ({ tasks }) => {
   );
 };
 
-export default TasksList;
+export default React.memo(TasksList);

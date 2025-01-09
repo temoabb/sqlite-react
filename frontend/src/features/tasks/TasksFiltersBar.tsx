@@ -25,6 +25,7 @@ const TasksFiltersBar: React.FC<TasksFiltersBarProps> = ({ noActiveTasks }) => {
 
   const handleSetType = (newStatus: TaskStatus) => {
     searchParams.set("status", newStatus);
+    searchParams.delete("keyword");
     setSearchParams(searchParams);
   };
 
