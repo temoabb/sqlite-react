@@ -4,7 +4,7 @@ import apiInstance from "@/api/apiInstance";
 
 import { TaskEntity, TaskStatus } from "./Tasks.config";
 
-interface TasksFilters {
+export interface TasksFilters {
   status: TaskStatus;
   keyword?: string;
 }
@@ -31,6 +31,7 @@ export const useGetTasks = (filters: TasksFilters) => {
 
 async function getTasksRequest(filters: TasksFilters): Promise<QueryData> {
   const { status, keyword } = filters;
+
   const apiStatus = status === "completed" ? 1 : 0;
 
   let apiEndpoint = `?status=${apiStatus}`;

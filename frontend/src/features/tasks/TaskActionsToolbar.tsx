@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { CircleCheck, PencilLine, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 
 import { useConfirm } from "@/hooks/useConfirm";
+import useTasksSearchParams from "@/hooks/useTasksSearchParams";
+import useUpdateTask from "./useUpdateTask";
 
 import TaskFormDialog from "./TaskFormDialog";
 
@@ -12,13 +15,23 @@ import { TaskEntity } from "./Tasks.config";
 const TaskActionsToolbar: React.FC<TaskEntity> = (task) => {
   const [openEdit, setOpenEdit] = useState(false);
 
+  const { status, keyword } = useTasksSearchParams();
+
+  const {
+    mutate: updateTask,
+    isPending,
+    error,
+  } = useUpdateTask({ status, keyword });
+
   const [ConfirmDeleteDialog, confirmDelete] = useConfirm(
     `Are you sure you want to delete task - ${task.title}?`,
     "This action is irreversible"
   );
 
   const [ConfirmMarkAsDoneDialog, confirmMarkAsDone] = useConfirm(
-    `Are you sure you want to mark task: "${task.title}" as done?`,
+    `Are you sure you want to mark task "${task.title}" as ${
+      status === "completed" ? "incomplete" : "done"
+    }?`,
     ""
   );
 
@@ -37,12 +50,27 @@ const TaskActionsToolbar: React.FC<TaskEntity> = (task) => {
   const handleMarkAsChecked = async () => {
     const ok = await confirmMarkAsDone();
     if (!ok) return;
+
+    const { isCompleted, ...rest } = task;
+
+    const updatedTask: TaskEntity = { isCompleted: !isCompleted, ...rest };
+
+    updateTask(updatedTask, {
+      onSuccess: () => {
+        toast.success("Status updated successfully");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
   };
 
   return (
     <>
       <TaskFormDialog prefill={task} open={openEdit} setOpen={setOpenEdit} />
+
       <ConfirmDeleteDialog />
+
       <ConfirmMarkAsDoneDialog />
 
       <div className="w-full flex items-center justify-between">
